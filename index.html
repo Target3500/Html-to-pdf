@@ -55,11 +55,11 @@
     }
 
     .container {
-      width: 100%;
-      max-width: 960px;
+      width: 800px;
       display: flex;
       flex-direction: column;
       gap: 24px;
+      background-color: #080c14;
     }
 
     .main-header {
@@ -82,8 +82,8 @@
       margin-bottom: 8px;
     }
 
-    .main-title { font-size: 28px; font-weight: 800; color: #ffffff; }
-    .main-subtitle { font-size: 14px; color: #94a3b8; margin-top: 4px; }
+    .main-title { font-size: 26px; font-weight: 800; color: #ffffff; }
+    .main-subtitle { font-size: 13.5px; color: #94a3b8; margin-top: 4px; }
 
     .section-card {
       border-radius: 12px;
@@ -103,7 +103,7 @@
       gap: 8px;
     }
 
-    .section-title { font-size: 19px; font-weight: 800; }
+    .section-title { font-size: 18px; font-weight: 800; }
     .topic-tag {
       font-size: 11px;
       font-weight: 700;
@@ -114,7 +114,7 @@
       text-transform: uppercase;
     }
 
-    .content-box { font-size: 14px; line-height: 1.7; color: #cbd5e1; }
+    .content-box { font-size: 13.5px; line-height: 1.7; color: #cbd5e1; }
     .content-box p { margin-bottom: 10px; }
     .content-box strong { color: #ffffff; }
 
@@ -134,8 +134,8 @@
     }
 
     .slot-icon { font-size: 22px; }
-    .slot-label { font-size: 13.5px; font-weight: 700; color: #f1f5f9; }
-    .slot-hint { font-size: 12px; color: #94a3b8; }
+    .slot-label { font-size: 13px; font-weight: 700; color: #f1f5f9; }
+    .slot-hint { font-size: 11.5px; color: #94a3b8; }
 
     .preview-img {
       display: none;
@@ -149,7 +149,7 @@
       width: 100%;
       border-collapse: collapse;
       margin: 10px 0;
-      font-size: 13px;
+      font-size: 12.5px;
       text-align: left;
     }
 
@@ -162,7 +162,7 @@
 
     .formula-banner {
       font-family: 'Fira Code', monospace;
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       text-align: center;
       padding: 12px;
@@ -186,7 +186,7 @@
       border: 1px solid rgba(255, 255, 255, 0.06);
     }
 
-    .sub-panel h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .sub-panel h4 { font-size: 13.5px; font-weight: 700; margin-bottom: 6px; }
 
     .theme-navy { background-color: #080f1a; border: 1px solid rgba(96, 165, 250, 0.25); color: #e2e8f0; }
     .theme-navy .section-title, .theme-navy .topic-tag { color: #e6c594; }
@@ -222,18 +222,12 @@
     .theme-olive .section-title, .theme-olive .topic-tag { color: #bef264; }
     .theme-olive .clean-table th { color: #a3e635; }
     .theme-olive .formula-banner { color: #d9f99d; }
-
-    @media (max-width: 680px) {
-      .grid-2 { grid-template-columns: 1fr; }
-      .section-card { padding: 18px 14px; }
-      .main-title { font-size: 22px; }
-    }
   </style>
 </head>
 <body>
 
   <div class="top-bar">
-    <button class="print-btn" onclick="saveContinuousPDF()">📥 حفظ صفحة واحدة طويلة (بدون هوامش بيضاء)</button>
+    <button class="print-btn" onclick="saveVectorContinuousPDF()">📥 حفظ كـ PDF نصي عالي الدقة (صفحة ممتدة)</button>
   </div>
 
   <div class="container" id="study-guide">
@@ -452,7 +446,6 @@
     </div>
   </div>
 
-  <!-- مكتبات إنشاء الـ PDF بأبعاد مخصصة بدون حدود نظام التشغيل -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -481,45 +474,39 @@
       }
     }
 
-    async function saveContinuousPDF() {
+    async function saveVectorContinuousPDF() {
       const btn = document.querySelector('.print-btn');
-      btn.innerText = "⏳ جاري إنشاء الـ PDF المخصص...";
-      
+      btn.innerText = "⏳ جاري التصدير كنص نقي...";
+
       const element = document.getElementById('study-guide');
-      
-      // إخفاء مربعات الصور الفارغة لعدم إشغال مساحة
       const emptySlots = document.querySelectorAll('.image-slot:not(.has-image)');
       emptySlots.forEach(slot => slot.style.display = 'none');
 
-      // لقطة فائقة الدقة (Scale 3 لضمان وضوح النص بدون بكسلة عند التكبير)
-      const canvas = await html2canvas(element, {
-        scale: 3,
-        useCORS: true,
-        backgroundColor: '#080c14',
-        logging: false
-      });
-
-      // إعادة إظهار المربعات الفارغة بعد الانتهاء
-      emptySlots.forEach(slot => slot.style.display = 'flex');
-
-      const imgData = canvas.toDataURL('image/jpeg', 1.0);
       const { jsPDF } = window.jspdf;
 
-      // حساب مقاس الصفحة بنفس عرض وارتفاع المحتوى بالضبط بالمليمتر
-      const pdfWidth = element.offsetWidth * 0.264583;
-      const pdfHeight = element.offsetHeight * 0.264583;
+      // تحويل مقاس الـ Container بدقة إلى نقاط (pt)
+      const widthPt = element.offsetWidth * 0.75;
+      const heightPt = element.offsetHeight * 0.75;
 
-      // إنشاء ملف PDF صفحة واحدة ممتدة بدون أي هوامش
       const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: [pdfWidth, pdfHeight]
+        orientation: 'p',
+        unit: 'pt',
+        format: [widthPt, heightPt]
       });
 
-      pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
-      pdf.save('Poultry_Science_Continuous.pdf');
+      // تصدير المحتوى كعناصر DOM حقيقية (Vector/Text) بدلاً من صورة ثابتة
+      await pdf.html(element, {
+        x: 0,
+        y: 0,
+        width: widthPt,
+        windowWidth: element.offsetWidth,
+        autoPaging: false
+      });
 
-      btn.innerText = "📥 حفظ صفحة واحدة طويلة (بدون هوامش بيضاء)";
+      emptySlots.forEach(slot => slot.style.display = 'flex');
+
+      pdf.save('Poultry_Science_Vector_Continuous.pdf');
+      btn.innerText = "📥 حفظ كـ PDF نصي عالي الدقة (صفحة ممتدة)";
     }
   </script>
 </body>
