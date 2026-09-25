@@ -475,8 +475,11 @@
     }
 
     async function saveVectorContinuousPDF() {
+      const topBar = document.querySelector('.top-bar');
       const btn = document.querySelector('.print-btn');
-      btn.innerText = "⏳ جاري التصدير كنص نقي...";
+      btn.innerText = "⏳ جاري التصدير بدقة عالية...";
+
+      topBar.style.display = 'none';
 
       const element = document.getElementById('study-guide');
       const emptySlots = document.querySelectorAll('.image-slot:not(.has-image)');
@@ -484,29 +487,34 @@
 
       const { jsPDF } = window.jspdf;
 
-      // تحويل مقاس الـ Container بدقة إلى نقاط (pt)
-      const widthPt = element.offsetWidth * 0.75;
-      const heightPt = element.offsetHeight * 0.75;
+      const wPt = element.offsetWidth * 0.75;
+      const hPt = element.scrollHeight * 0.75 + 20;
 
       const pdf = new jsPDF({
         orientation: 'p',
         unit: 'pt',
-        format: [widthPt, heightPt]
+        format: [wPt, hPt]
       });
 
-      // تصدير المحتوى كعناصر DOM حقيقية (Vector/Text) بدلاً من صورة ثابتة
       await pdf.html(element, {
         x: 0,
-        y: 0,
-        width: widthPt,
+        y: 10,
+        width: wPt,
         windowWidth: element.offsetWidth,
-        autoPaging: false
+        autoPaging: false,
+        html2canvas: {
+          backgroundColor: '#080c14',
+          scale: 2,
+          useCORS: true,
+          logging: false
+        }
       });
 
+      topBar.style.display = 'flex';
       emptySlots.forEach(slot => slot.style.display = 'flex');
-
-      pdf.save('Poultry_Science_Vector_Continuous.pdf');
       btn.innerText = "📥 حفظ كـ PDF نصي عالي الدقة (صفحة ممتدة)";
+
+      pdf.save('Poultry_Science_Perfect.pdf');
     }
   </script>
 </body>
