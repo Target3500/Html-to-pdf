@@ -227,7 +227,7 @@
 <body>
 
   <div class="top-bar">
-    <button class="print-btn" onclick="saveVectorContinuousPDF()">📥 حفظ كـ PDF نصي عالي الدقة (صفحة ممتدة)</button>
+    <button class="print-btn" onclick="saveContinuousPDF()">📥 حفظ صفحة واحدة طويلة (عالي الدقة)</button>
   </div>
 
   <div class="container" id="study-guide">
@@ -474,47 +474,47 @@
       }
     }
 
-    async function saveVectorContinuousPDF() {
+    async function saveContinuousPDF() {
       const topBar = document.querySelector('.top-bar');
       const btn = document.querySelector('.print-btn');
-      btn.innerText = "⏳ جاري التصدير بدقة عالية...";
+      btn.innerText = "⏳ جاري التصدير بدقة فائقة...";
 
+      // 1. إخفاء شريط الأدوات والمربعات غير المستخدمة
       topBar.style.display = 'none';
-
-      const element = document.getElementById('study-guide');
       const emptySlots = document.querySelectorAll('.image-slot:not(.has-image)');
       emptySlots.forEach(slot => slot.style.display = 'none');
 
-      const { jsPDF } = window.jspdf;
+      const element = document.getElementById('study-guide');
 
-      const wPt = element.offsetWidth * 0.75;
-      const hPt = element.scrollHeight * 0.75 + 20;
-
-      const pdf = new jsPDF({
-        orientation: 'p',
-        unit: 'pt',
-        format: [wPt, hPt]
+      // 2. استخدام أقصى دقة (scale: 4) لمنع أي تشويش عند التكبير
+      const canvas = await html2canvas(element, {
+        scale: 4,
+        useCORS: true,
+        backgroundColor: '#080c14',
+        logging: false,
+        windowWidth: element.scrollWidth
       });
 
-      await pdf.html(element, {
-        x: 0,
-        y: 10,
-        width: wPt,
-        windowWidth: element.offsetWidth,
-        autoPaging: false,
-        html2canvas: {
-          backgroundColor: '#080c14',
-          scale: 2,
-          useCORS: true,
-          logging: false
-        }
-      });
-
+      // 3. إعادة إظهار شريط الأدوات
       topBar.style.display = 'flex';
       emptySlots.forEach(slot => slot.style.display = 'flex');
-      btn.innerText = "📥 حفظ كـ PDF نصي عالي الدقة (صفحة ممتدة)";
+      btn.innerText = "📥 حفظ صفحة واحدة طويلة (عالي الدقة)";
 
-      pdf.save('Poultry_Science_Perfect.pdf');
+      // 4. ضبط أبعاد الصفحة بدقة بكسل-إلى-نقطة
+      const imgWidth = element.offsetWidth;
+      const imgHeight = element.scrollHeight;
+
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({
+        orientation: 'p',
+        unit: 'px',
+        format: [imgWidth, imgHeight],
+        hotfixes: ['px_scaling']
+      });
+
+      // 5. لصق الصورة من النقطة (0, 0) مباشرة دون أي مساحة بيضاء
+      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, imgWidth, imgHeight);
+      pdf.save('Poultry_Science_Continuous.pdf');
     }
   </script>
 </body>
