@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>أداة تحويل HTML إلى PDF بالصور</title>
+  <!-- مكتبة التحويل الشاملة -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: #111827;
+      color: #f3f4f6;
+    }
+    .controls {
+      max-width: 800px;
+      margin: 0 auto 20px;
+      background: #1f2937;
+      padding: 16px;
+      border-radius: 8px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    button {
+      padding: 10px 18px;
+      background: #2563eb;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover { background: #1d4ed8; }
+    #download-btn { background: #059669; }
+    #download-btn:hover { background: #047857; }
+    #content-area {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #ffffff;
+      color: #000000;
+      padding: 24px;
+      border-radius: 8px;
+      min-height: 400px;
+    }
+    .dropzone {
+      border: 2px dashed #9ca3af;
+      padding: 16px;
+      text-align: center;
+      margin: 12px 0;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .preview-image {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      display: none;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="controls">
+    <button onclick="addSection()">+ إضافة فقرة جديدة</button>
+    <button id="download-btn" onclick="exportToPDF()">تحميل كـ PDF الآن</button>
+  </div>
+
+  <div id="content-area">
+    <h2 contenteditable="true" style="text-align: center;">عنوان المستند</h2>
+    <p contenteditable="true">اضغط هنا لتعديل النص، واضغط على المربع بالأسفل لاختيار صورة من التابلت:</p>
+    
+    <div class="dropzone" onclick="selectImage(this)">
+      <div>اضغط لرفع صورة</div>
+      <input type="file" accept="image/*" style="display:none" onchange="handleImage(event, this)">
+      <img class="preview-image" alt="Uploaded Image">
+    </div>
+  </div>
+
+  <script>
+    function selectImage(zone) {
+      zone.querySelector('input[type="file"]').click();
+    }
+
+    function handleImage(event, input) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = input.nextElementSibling;
+          img.src = e.target.result; // تحويل فوري لـ Base64
+          img.style.display = 'block';
+          input.previousElementSibling.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function addSection() {
+      const container = document.getElementById('content-area');
+      const div = document.createElement('div');
+      div.innerHTML = `
+        <h3 contenteditable="true" style="margin-top:20px;">عنوان فقرة جديد</h3>
+        <p contenteditable="true">اكتب النص هنا...</p>
+        <div class="dropzone" onclick="selectImage(this)">
+          <div>اضغط لرفع صورة</div>
+          <input type="file" accept="image/*" style="display:none" onchange="handleImage(event, this)">
+          <img class="preview-image" alt="Uploaded Image">
+        </div>
+      `;
+      container.appendChild(div);
+    }
+
+    function exportToPDF() {
+      const element = document.getElementById('content-area');
+      const opt = {
+        margin:       10,
+        filename:     'document.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+      html2pdf().set(opt).from(element).save();
+    }
+  </script>
+</body>
+</html>
