@@ -1,125 +1,459 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>أداة تحويل HTML إلى PDF بالصور</title>
-  <!-- مكتبة التحويل الشاملة -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Poultry Science: Population Genetics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@500;700&display=swap" rel="stylesheet">
+  <!-- مكتبة تحويل الـ HTML إلى PDF مباشرة -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: #111827;
-      color: #f3f4f6;
-    }
-    .controls {
-      max-width: 800px;
-      margin: 0 auto 20px;
-      background: #1f2937;
-      padding: 16px;
-      border-radius: 8px;
+      background-color: #080c14;
+      color: #e2e8f0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 16px 60px;
     }
-    button {
-      padding: 10px 18px;
-      background: #2563eb;
+    .top-bar {
+      position: sticky;
+      top: 10px;
+      z-index: 1000;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      padding: 12px 24px;
+      border-radius: 50px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+    }
+    .pdf-btn {
+      background: #059669;
       color: white;
       border: none;
-      border-radius: 6px;
+      padding: 10px 24px;
+      border-radius: 30px;
+      font-weight: 800;
+      font-size: 15px;
       cursor: pointer;
-      font-weight: bold;
+      box-shadow: 0 2px 10px rgba(5, 150, 105, 0.4);
     }
-    button:hover { background: #1d4ed8; }
-    #download-btn { background: #059669; }
-    #download-btn:hover { background: #047857; }
-    #content-area {
-      max-width: 800px;
-      margin: 0 auto;
-      background: #ffffff;
-      color: #000000;
-      padding: 24px;
-      border-radius: 8px;
-      min-height: 400px;
+    .container {
+      width: 100%;
+      max-width: 960px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
     }
-    .dropzone {
-      border: 2px dashed #9ca3af;
-      padding: 16px;
+    .main-header {
       text-align: center;
-      margin: 12px 0;
-      border-radius: 6px;
-      cursor: pointer;
+      padding: 24px 10px 28px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
-    .preview-image {
-      max-width: 100%;
-      height: auto;
-      border-radius: 6px;
+    .header-badge {
+      display: inline-block;
+      font-size: 12.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+      padding: 4px 16px;
+      border-radius: 9999px;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      margin-bottom: 10px;
+    }
+    .main-title { font-size: 30px; font-weight: 800; color: #ffffff; }
+    .main-subtitle { font-size: 14px; color: #94a3b8; margin-top: 6px; }
+    .section-card {
+      border-radius: 14px;
+      padding: 26px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .section-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .section-title { font-size: 20px; font-weight: 800; }
+    .topic-tag {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 14px;
+      border-radius: 9999px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      text-transform: uppercase;
+    }
+    .content-box { font-size: 14.5px; line-height: 1.75; color: #cbd5e1; }
+    .content-box p { margin-bottom: 12px; }
+    .content-box strong { color: #ffffff; }
+    .image-slot {
+      width: 100%;
+      border: 2px dashed rgba(255, 255, 255, 0.25);
+      border-radius: 10px;
+      padding: 24px 16px;
+      text-align: center;
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .slot-icon { font-size: 24px; }
+    .slot-label { font-size: 14px; font-weight: 700; color: #f1f5f9; }
+    .slot-hint { font-size: 12px; color: #94a3b8; }
+    .preview-img {
       display: none;
-      margin-top: 8px;
+      width: 100%;
+      max-height: 380px;
+      object-fit: contain;
+      border-radius: 8px;
+    }
+    .clean-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 13.5px;
+      text-align: left;
+    }
+    .clean-table th, .clean-table td {
+      padding: 10px 14px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .clean-table th { background: rgba(0, 0, 0, 0.3); font-weight: 700; }
+    .formula-banner {
+      font-family: 'Fira Code', monospace;
+      font-size: 17px;
+      font-weight: 700;
+      text-align: center;
+      padding: 14px;
+      border-radius: 8px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin: 12px 0;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 10px;
+    }
+    .sub-panel {
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 10px;
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .sub-panel h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+
+    .theme-navy { background-color: #080f1a; border: 1px solid rgba(96, 165, 250, 0.25); color: #e2e8f0; }
+    .theme-navy .section-title, .theme-navy .topic-tag { color: #e6c594; }
+    .theme-navy .clean-table th { color: #60a5fa; }
+    .theme-navy .formula-banner { color: #93c5fd; }
+
+    .theme-emerald { background-color: #061712; border: 1px solid rgba(52, 211, 153, 0.25); color: #edf5f0; }
+    .theme-emerald .section-title, .theme-emerald .topic-tag { color: #e2b15c; }
+    .theme-emerald .clean-table th { color: #34d399; }
+    .theme-emerald .formula-banner { color: #a7f3d0; }
+
+    .theme-umber { background-color: #140e0a; border: 1px solid rgba(217, 119, 6, 0.25); color: #fdfaf3; }
+    .theme-umber .section-title, .theme-umber .topic-tag { color: #e09f5a; }
+    .theme-umber .clean-table th { color: #fbbf24; }
+    .theme-umber .formula-banner { color: #fde68a; }
+
+    .theme-plum { background-color: #130a17; border: 1px solid rgba(192, 132, 252, 0.22); color: #f5eff9; }
+    .theme-plum .section-title, .theme-plum .topic-tag { color: #fbbf24; }
+    .theme-plum .clean-table th { color: #c084fc; }
+    .theme-plum .formula-banner { color: #e9d5ff; }
+
+    .theme-teal { background-color: #061417; border: 1px solid rgba(45, 212, 191, 0.22); color: #e6f7f6; }
+    .theme-teal .section-title, .theme-teal .topic-tag { color: #e2be74; }
+    .theme-teal .clean-table th { color: #2dd4bf; }
+    .theme-teal .formula-banner { color: #99f6e4; }
+
+    .theme-burgundy { background-color: #120508; border: 1px solid rgba(226, 75, 96, 0.26); color: #faede9; }
+    .theme-burgundy .section-title, .theme-burgundy .topic-tag { color: #f3c27e; }
+    .theme-burgundy .clean-table th { color: #f87171; }
+    .theme-burgundy .formula-banner { color: #fecaca; }
+
+    .theme-olive { background-color: #11140b; border: 1px solid rgba(163, 230, 53, 0.2); color: #f5f8ea; }
+    .theme-olive .section-title, .theme-olive .topic-tag { color: #bef264; }
+    .theme-olive .clean-table th { color: #a3e635; }
+    .theme-olive .formula-banner { color: #d9f99d; }
+
+    @media (max-width: 680px) {
+      .grid-2 { grid-template-columns: 1fr; }
+      .section-card { padding: 20px 16px; }
+      .main-title { font-size: 22px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="controls">
-    <button onclick="addSection()">+ إضافة فقرة جديدة</button>
-    <button id="download-btn" onclick="exportToPDF()">تحميل كـ PDF الآن</button>
+  <div class="top-bar">
+    <button class="pdf-btn" onclick="saveToPDF()">📥 تحميل الملف كاملاً كـ PDF</button>
   </div>
 
-  <div id="content-area">
-    <h2 contenteditable="true" style="text-align: center;">عنوان المستند</h2>
-    <p contenteditable="true">اضغط هنا لتعديل النص، واضغط على المربع بالأسفل لاختيار صورة من التابلت:</p>
-    
-    <div class="dropzone" onclick="selectImage(this)">
-      <div>اضغط لرفع صورة</div>
-      <input type="file" accept="image/*" style="display:none" onchange="handleImage(event, this)">
-      <img class="preview-image" alt="Uploaded Image">
+  <div class="container" id="study-guide">
+    <div class="main-header">
+      <div class="header-badge">Poultry Science Department</div>
+      <h1 class="main-title">Population Genetics & Hardy-Weinberg Equilibrium</h1>
+      <p class="main-subtitle">Comprehensive study guide based on the lecture by Pr. Dr. Mohamed Sharaf</p>
+    </div>
+
+    <!-- Section 1 -->
+    <div class="section-card theme-navy">
+      <div class="section-meta">
+        <h2 class="section-title">1. Introduction & Population vs Mendelian Genetics</h2>
+        <div class="topic-tag">Foundations</div>
+      </div>
+      <div class="content-box">
+        <p><strong>Population:</strong> A group of birds or organisms belonging to the same species, living in the same geographical area (e.g., one farm), at the same time (e.g., same season or period).</p>
+        <p><strong>Population Genetics:</strong> The application of genetic principles to entire populations of organisms rather than single mating pairs. It studies how allele frequencies change in a whole flock over generations.</p>
+        <p><strong>Dominance vs. Frequency:</strong> Dominance controls how an allele is expressed in an individual phenotype, NOT how common it becomes across a population. A dominant allele will not automatically take over a flock.</p>
+
+        <table class="clean-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Mendelian Genetics</th>
+              <th>Population Genetics</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Definition</strong></td>
+              <td>Observable traits based on simple dominant-recessive relationships.</td>
+              <td>Application of genetic principles to entire populations.</td>
+            </tr>
+            <tr>
+              <td><strong>Unit of Study</strong></td>
+              <td>The individual progeny (single cross).</td>
+              <td>The entire population (flock).</td>
+            </tr>
+            <tr>
+              <td><strong>Measurements</strong></td>
+              <td>Classifying individuals (e.g., 3:1 ratio).</td>
+              <td>Needs specific mathematical frequencies.</td>
+            </tr>
+            <tr>
+              <td><strong>Environment</strong></td>
+              <td>Plays no role: Phenotype = Genotype</td>
+              <td>Plays a major role: Phenotype = Genotype + Environment</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="image-slot" onclick="triggerUpload(this)">
+        <div class="slot-icon">📷</div>
+        <div class="slot-label">+ Add Image: Population & Farm Overview</div>
+        <div class="slot-hint">Suggested: Farm image showing a flock or the population definition diagram.</div>
+        <input type="file" accept="image/*" style="display:none" onchange="previewImage(event, this)">
+        <img class="preview-img" alt="Population Overview">
+      </div>
+    </div>
+
+    <!-- Section 2 -->
+    <div class="section-card theme-emerald">
+      <div class="section-meta">
+        <h2 class="section-title">2. Gene, Alleles & Zygosity States</h2>
+        <div class="topic-tag">Terminology</div>
+      </div>
+      <div class="content-box">
+        <p><strong>Gene:</strong> The functional unit of genetic information in an individual located at a specific locus on a chromosome.</p>
+        <p><strong>Alleles:</strong> Alternative molecular forms of a gene pair. <em>Crucial rule:</em> Alleles, not genotypes, are transmitted directly from one generation to the next.</p>
+        <p><strong>Gene Pool:</strong> The complete set of all genetic information (all copies of all alleles) across all individuals in a population.</p>
+
+        <div class="grid-2">
+          <div class="sub-panel">
+            <h4>Zygosity Conditions:</h4>
+            <p>• <strong>Homozygous:</strong> Alleles are identical (e.g., AA or aa).</p>
+            <p>• <strong>Heterozygous:</strong> Alleles are different (e.g., Aa or CB CW).</p>
+            <p>• <strong>Hemizygous:</strong> Only one allele exists for a trait (e.g., sex-linked genes on XY or ZW chromosomes).</p>
+          </div>
+          <div class="sub-panel">
+            <h4>Phenotypic Mirroring:</h4>
+            <p>For classical Mendelian traits, phenotype is an exact reflection of genotype. In codominance (such as Andalusian blue chickens), heterozygotes display a distinct blended phenotype.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="image-slot" onclick="triggerUpload(this)">
+        <div class="slot-icon">📷</div>
+        <div class="slot-label">+ Add Image: Homologous Chromosomes & Locus Diagram</div>
+        <div class="slot-hint">Suggested: Chromosomes diagram with gene loci and alleles.</div>
+        <input type="file" accept="image/*" style="display:none" onchange="previewImage(event, this)">
+        <img class="preview-img" alt="Gene Locus and Chromosomes">
+      </div>
+    </div>
+
+    <!-- Section 3 -->
+    <div class="section-card theme-umber">
+      <div class="section-meta">
+        <h2 class="section-title">3. Dihybrid Inheritance & Epistasis in Poultry</h2>
+        <div class="topic-tag">Avian Traits</div>
+      </div>
+      <div class="content-box">
+        <p><strong>Mendel's 2nd Law (Dihybrid Cross):</strong> Combining feather type (Normal F vs. Silkie f) with leg feathering (Feathered Pti vs. Bare pti) gives the classical 9:3:3:1 ratio in F2.</p>
+        <p><strong>Epistasis (Comb Shape Interaction):</strong> Two different genes interact to form a single physical trait (comb shape):</p>
+        
+        <table class="clean-table">
+          <thead>
+            <tr>
+              <th>Comb Shape</th>
+              <th>Genotype Formula</th>
+              <th>F2 Ratio</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Walnut Comb</strong></td><td>R_ P_</td><td>9/16</td></tr>
+            <tr><td><strong>Rose Comb</strong></td><td>R_ pp</td><td>3/16</td></tr>
+            <tr><td><strong>Pea Comb</strong></td><td>rr P_</td><td>3/16</td></tr>
+            <tr><td><strong>Single Comb</strong></td><td>rr pp</td><td>1/16</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="image-slot" onclick="triggerUpload(this)">
+        <div class="slot-icon">📷</div>
+        <div class="slot-label">+ Add Image: Chicken Comb Shapes (Epistasis)</div>
+        <div class="slot-hint">Suggested: The dihybrid cross chart or comb shape drawings.</div>
+        <input type="file" accept="image/*" style="display:none" onchange="previewImage(event, this)">
+        <img class="preview-img" alt="Chicken Comb Shapes">
+      </div>
+    </div>
+
+    <!-- Section 4 -->
+    <div class="section-card theme-plum">
+      <div class="section-meta">
+        <h2 class="section-title">4. Calculating Genotypic & Allelic Frequencies</h2>
+        <div class="topic-tag">Formulas</div>
+      </div>
+      <div class="content-box">
+        <p>In diploid organisms, if there are N individuals, total alleles = 2N.</p>
+        <div class="formula-banner">
+          Genotype Freq = (Individuals with genotype) / (Total N)<br>
+          Allele Freq = (Copies of that allele) / (2N Total alleles)
+        </div>
+        <p>• Frequency of dominant allele (p) = D + 0.5(H)</p>
+        <p>• Frequency of recessive allele (q) = R + 0.5(H)</p>
+      </div>
+
+      <div class="image-slot" onclick="triggerUpload(this)">
+        <div class="slot-icon">📷</div>
+        <div class="slot-label">+ Add Image: Allele Counting Model</div>
+        <div class="slot-hint">Suggested: Graphic demonstrating allele calculations.</div>
+        <input type="file" accept="image/*" style="display:none" onchange="previewImage(event, this)">
+        <img class="preview-img" alt="Allele Model">
+      </div>
+    </div>
+
+    <!-- Section 5 -->
+    <div class="section-card theme-teal">
+      <div class="section-meta">
+        <h2 class="section-title">5. The Hardy-Weinberg Law (1909)</h2>
+        <div class="topic-tag">Equilibrium Model</div>
+      </div>
+      <div class="content-box">
+        <div class="formula-banner">
+          p + q = 1 | p^2 + 2pq + q^2 = 1
+        </div>
+        <div class="grid-2">
+          <div class="sub-panel">
+            <h4>The 5 Mandatory Assumptions:</h4>
+            <p>1. Very large population size<br>2. Random mating (panmixia)<br>3. No migration<br>4. No mutations<br>5. No selection</p>
+          </div>
+          <div class="sub-panel">
+            <h4>Purpose of HWE:</h4>
+            <p>Acts as a <strong>Null Hypothesis</strong> to detect and measure evolutionary changes in flocks.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="image-slot" onclick="triggerUpload(this)">
+        <div class="slot-icon">📷</div>
+        <div class="slot-label">+ Add Image: Hardy-Weinberg Punnett Square</div>
+        <div class="slot-hint">Suggested: Punnett square or equilibrium graphic.</div>
+        <input type="file" accept="image/*" style="display:none" onchange="previewImage(event, this)">
+        <img class="preview-img" alt="HWE Graphic">
+      </div>
+    </div>
+
+    <!-- Section 6 -->
+    <div class="section-card theme-burgundy">
+      <div class="section-meta">
+        <h2 class="section-title">6. Fully Solved Practice Problems from Lecture</h2>
+        <div class="topic-tag">Step-by-Step</div>
+      </div>
+      <div class="content-box">
+        <p><strong>Problem 1: Chicken Feather Colors (500 birds)</strong></p>
+        <p>• Data: White (BB) = 245, Blue (Bb) = 210, Black (bb) = 45.</p>
+        <p>• Allelic frequencies: p(B) = 0.7 | q(b) = 0.3 -> Population is in equilibrium.</p>
+        <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:12px 0;">
+        <p><strong>Problem 2: PTC Tasting (1000 individuals)</strong></p>
+        <p>• Non-tasters (tt) = 360 -> q^2 = 0.36 -> q = 0.6 -> p = 0.4.</p>
+      </div>
+    </div>
+
+    <!-- Section 7 -->
+    <div class="section-card theme-olive">
+      <div class="section-meta">
+        <h2 class="section-title">7. Forces Altering Genetic Equilibrium</h2>
+        <div class="topic-tag">Evolutionary Factors</div>
+      </div>
+      <div class="content-box">
+        <p>• <strong>Genetic Drift:</strong> Random changes in allele frequencies in small flocks.</p>
+        <p>• <strong>Selection:</strong> Differential survival or artificial breeding decisions.</p>
+        <p>• <strong>Migration:</strong> Gene flow through adding or removing birds.</p>
+      </div>
     </div>
   </div>
 
   <script>
-    function selectImage(zone) {
-      zone.querySelector('input[type="file"]').click();
+    function triggerUpload(slot) {
+      slot.querySelector('input[type="file"]').click();
     }
 
-    function handleImage(event, input) {
+    function previewImage(event, input) {
       const file = event.target.files[0];
       if (file) {
         const reader = new FileReader();
         reader.onload = function(e) {
           const img = input.nextElementSibling;
-          img.src = e.target.result; // تحويل فوري لـ Base64
+          img.src = e.target.result; // مدمجة Base64 لكي تُطبع دائماً
           img.style.display = 'block';
-          input.previousElementSibling.style.display = 'none';
+          const parent = input.parentElement;
+          parent.querySelector('.slot-icon').style.display = 'none';
+          parent.querySelector('.slot-label').style.display = 'none';
+          parent.querySelector('.slot-hint').style.display = 'none';
+          parent.style.borderStyle = 'solid';
+          parent.style.padding = '8px';
         };
         reader.readAsDataURL(file);
       }
     }
 
-    function addSection() {
-      const container = document.getElementById('content-area');
-      const div = document.createElement('div');
-      div.innerHTML = `
-        <h3 contenteditable="true" style="margin-top:20px;">عنوان فقرة جديد</h3>
-        <p contenteditable="true">اكتب النص هنا...</p>
-        <div class="dropzone" onclick="selectImage(this)">
-          <div>اضغط لرفع صورة</div>
-          <input type="file" accept="image/*" style="display:none" onchange="handleImage(event, this)">
-          <img class="preview-image" alt="Uploaded Image">
-        </div>
-      `;
-      container.appendChild(div);
-    }
-
-    function exportToPDF() {
-      const element = document.getElementById('content-area');
+    function saveToPDF() {
+      const element = document.getElementById('study-guide');
       const opt = {
-        margin:       10,
-        filename:     'document.pdf',
+        margin:       [8, 8, 8, 8],
+        filename:     'Poultry_Science_Study_Guide.pdf',
         image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true },
+        html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#080c14' },
         jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
       html2pdf().set(opt).from(element).save();
