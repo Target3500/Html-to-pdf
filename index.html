@@ -7,10 +7,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@500;700&display=swap" rel="stylesheet">
-  <!-- مكتبة تحويل الـ HTML إلى PDF مباشرة -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
     body {
       background-color: #080c14;
       color: #e2e8f0;
@@ -20,89 +25,145 @@
       align-items: center;
       padding: 20px 16px 60px;
     }
-    .top-bar {
+
+    /* شريط التحكم في إعدادات الـ PDF */
+    .control-panel {
       position: sticky;
       top: 10px;
       z-index: 1000;
-      background: rgba(15, 23, 42, 0.95);
+      background: #0f172a;
       border: 1px solid rgba(56, 189, 248, 0.4);
-      padding: 12px 24px;
-      border-radius: 50px;
+      padding: 14px 20px;
+      border-radius: 12px;
       margin-bottom: 24px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      justify-content: center;
+      max-width: 960px;
+      width: 100%;
     }
-    .pdf-btn {
+
+    .control-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #94a3b8;
+    }
+
+    .control-group label {
+      color: #f1f5f9;
+      cursor: pointer;
+    }
+
+    .control-panel select, .control-panel input[type="number"] {
+      background: #1e293b;
+      color: #f8fafc;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .control-panel input[type="number"] {
+      width: 70px;
+    }
+
+    .print-btn {
       background: #059669;
       color: white;
       border: none;
-      padding: 10px 24px;
-      border-radius: 30px;
+      padding: 8px 20px;
+      border-radius: 8px;
       font-weight: 800;
-      font-size: 15px;
+      font-size: 14px;
       cursor: pointer;
       box-shadow: 0 2px 10px rgba(5, 150, 105, 0.4);
+      margin-left: auto;
     }
+
+    .print-btn:hover {
+      background: #047857;
+    }
+
+    /* الحاوية الأساسية */
     .container {
       width: 100%;
       max-width: 960px;
       display: flex;
       flex-direction: column;
-      gap: 32px;
+      gap: 24px;
+      transition: all 0.2s ease;
     }
+
     .main-header {
       text-align: center;
-      padding: 24px 10px 28px;
+      padding: 20px 10px 24px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
+
     .header-badge {
       display: inline-block;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 1px;
       color: #38bdf8;
       background: rgba(56, 189, 248, 0.1);
-      padding: 4px 16px;
+      padding: 4px 14px;
       border-radius: 9999px;
       border: 1px solid rgba(56, 189, 248, 0.25);
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
-    .main-title { font-size: 30px; font-weight: 800; color: #ffffff; }
-    .main-subtitle { font-size: 14px; color: #94a3b8; margin-top: 6px; }
+
+    .main-title { font-size: 28px; font-weight: 800; color: #ffffff; }
+    .main-subtitle { font-size: 14px; color: #94a3b8; margin-top: 4px; }
+
     .section-card {
-      border-radius: 14px;
-      padding: 26px 28px;
+      border-radius: 12px;
+      padding: 22px 24px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 16px;
+      break-inside: avoid;
+      page-break-inside: avoid;
     }
+
     .section-meta {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 12px;
+      padding-bottom: 10px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.08);
       flex-wrap: wrap;
       gap: 8px;
     }
-    .section-title { font-size: 20px; font-weight: 800; }
+
+    .section-title { font-size: 19px; font-weight: 800; }
     .topic-tag {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
-      padding: 4px 14px;
+      padding: 3px 12px;
       border-radius: 9999px;
       background: rgba(0, 0, 0, 0.35);
       border: 1px solid rgba(255, 255, 255, 0.12);
       text-transform: uppercase;
     }
-    .content-box { font-size: 14.5px; line-height: 1.75; color: #cbd5e1; }
-    .content-box p { margin-bottom: 12px; }
+
+    .content-box { font-size: 14px; line-height: 1.7; color: #cbd5e1; }
+    .content-box p { margin-bottom: 10px; }
     .content-box strong { color: #ffffff; }
+
     .image-slot {
       width: 100%;
       border: 2px dashed rgba(255, 255, 255, 0.25);
-      border-radius: 10px;
-      padding: 24px 16px;
+      border-radius: 8px;
+      padding: 20px 14px;
       text-align: center;
       cursor: pointer;
       background: rgba(0, 0, 0, 0.25);
@@ -110,55 +171,65 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 6px;
     }
-    .slot-icon { font-size: 24px; }
-    .slot-label { font-size: 14px; font-weight: 700; color: #f1f5f9; }
+
+    .slot-icon { font-size: 22px; }
+    .slot-label { font-size: 13.5px; font-weight: 700; color: #f1f5f9; }
     .slot-hint { font-size: 12px; color: #94a3b8; }
+
     .preview-img {
       display: none;
       width: 100%;
-      max-height: 380px;
+      max-height: 350px;
       object-fit: contain;
-      border-radius: 8px;
+      border-radius: 6px;
     }
+
     .clean-table {
       width: 100%;
       border-collapse: collapse;
-      margin: 12px 0;
-      font-size: 13.5px;
+      margin: 10px 0;
+      font-size: 13px;
       text-align: left;
     }
+
     .clean-table th, .clean-table td {
-      padding: 10px 14px;
+      padding: 8px 12px;
       border: 1px solid rgba(255, 255, 255, 0.08);
     }
+
     .clean-table th { background: rgba(0, 0, 0, 0.3); font-weight: 700; }
+
     .formula-banner {
       font-family: 'Fira Code', monospace;
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 700;
       text-align: center;
-      padding: 14px;
-      border-radius: 8px;
+      padding: 12px;
+      border-radius: 6px;
       background: rgba(0, 0, 0, 0.35);
       border: 1px solid rgba(255, 255, 255, 0.1);
-      margin: 12px 0;
+      margin: 10px 0;
     }
+
     .grid-2 {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-      margin-top: 10px;
+      gap: 14px;
+      margin-top: 8px;
     }
+
     .sub-panel {
       background: rgba(0, 0, 0, 0.25);
-      border-radius: 10px;
-      padding: 16px;
+      border-radius: 8px;
+      padding: 14px;
       border: 1px solid rgba(255, 255, 255, 0.06);
     }
-    .sub-panel h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
 
+    .sub-panel h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+
+    /* أنماط الثيمات */
     .theme-navy { background-color: #080f1a; border: 1px solid rgba(96, 165, 250, 0.25); color: #e2e8f0; }
     .theme-navy .section-title, .theme-navy .topic-tag { color: #e6c594; }
     .theme-navy .clean-table th { color: #60a5fa; }
@@ -194,17 +265,98 @@
     .theme-olive .clean-table th { color: #a3e635; }
     .theme-olive .formula-banner { color: #d9f99d; }
 
-    @media (max-width: 680px) {
-      .grid-2 { grid-template-columns: 1fr; }
-      .section-card { padding: 20px 16px; }
-      .main-title { font-size: 22px; }
+    /* خيار تعطيل خلفيات الألوان (Light / Minimal Mode) */
+    body.no-backgrounds {
+      background-color: #ffffff !important;
+      color: #000000 !important;
     }
+    body.no-backgrounds .section-card,
+    body.no-backgrounds .sub-panel,
+    body.no-backgrounds .formula-banner {
+      background: #ffffff !important;
+      border: 1px solid #cbd5e1 !important;
+      color: #000000 !important;
+    }
+    body.no-backgrounds .section-title,
+    body.no-backgrounds .main-title,
+    body.no-backgrounds strong {
+      color: #000000 !important;
+    }
+    body.no-backgrounds .clean-table th,
+    body.no-backgrounds .clean-table td {
+      border: 1px solid #cbd5e1 !important;
+      color: #000000 !important;
+    }
+    body.no-backgrounds .clean-table th {
+      background: #f1f5f9 !important;
+    }
+
+    /* خيار 1 Page PDF (ضغط المحتوى في صفحة واحدة) */
+    .one-page-mode {
+      zoom: 0.65;
+      gap: 12px !important;
+    }
+    .one-page-mode .section-card {
+      padding: 12px 16px !important;
+      gap: 8px !important;
+    }
+    .one-page-mode .main-header {
+      padding: 10px 0 !important;
+    }
+
+    /* إعدادات الطباعة الأصلية Vector PDF */
+    @media print {
+      .control-panel {
+        display: none !important;
+      }
+      body {
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .container {
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+      .image-slot:not(.has-image) {
+        display: none !important;
+      }
+    }
+  </style>
+  <style id="dynamic-page-size">
+    @page { size: A4 portrait; margin: 10mm; }
   </style>
 </head>
 <body>
 
-  <div class="top-bar">
-    <button class="pdf-btn" onclick="saveToPDF()">📥 تحميل الملف كاملاً كـ PDF</button>
+  <!-- شريط أدوات الـ PDF -->
+  <div class="control-panel">
+    <div class="control-group">
+      <input type="checkbox" id="bg-toggle" checked onchange="toggleBackgrounds(this)">
+      <label for="bg-toggle">Background Graphics</label>
+    </div>
+
+    <div class="control-group">
+      <input type="checkbox" id="one-page-toggle" onchange="toggleOnePage(this)">
+      <label for="one-page-toggle">Fit to 1 Page</label>
+    </div>
+
+    <div class="control-group">
+      <span>Paper:</span>
+      <select id="paper-size" onchange="updatePageSize()">
+        <option value="A4 portrait">A4</option>
+        <option value="letter portrait">Letter</option>
+        <option value="custom">Custom Size</option>
+      </select>
+    </div>
+
+    <div class="control-group" id="custom-size-controls" style="display: none;">
+      <span>W(mm):</span>
+      <input type="number" id="custom-w" value="210" onchange="updatePageSize()">
+      <span>H(mm):</span>
+      <input type="number" id="custom-h" value="297" onchange="updatePageSize()">
+    </div>
+
+    <button class="print-btn" onclick="printNativePDF()">🖨️ حفظ كـ PDF نصي</button>
   </div>
 
   <div class="container" id="study-guide">
@@ -434,29 +586,59 @@
         const reader = new FileReader();
         reader.onload = function(e) {
           const img = input.nextElementSibling;
-          img.src = e.target.result; // مدمجة Base64 لكي تُطبع دائماً
+          img.src = e.target.result;
           img.style.display = 'block';
           const parent = input.parentElement;
+          parent.classList.add('has-image');
           parent.querySelector('.slot-icon').style.display = 'none';
           parent.querySelector('.slot-label').style.display = 'none';
           parent.querySelector('.slot-hint').style.display = 'none';
           parent.style.borderStyle = 'solid';
-          parent.style.padding = '8px';
+          parent.style.padding = '6px';
         };
         reader.readAsDataURL(file);
       }
     }
 
-    function saveToPDF() {
-      const element = document.getElementById('study-guide');
-      const opt = {
-        margin:       [8, 8, 8, 8],
-        filename:     'Poultry_Science_Study_Guide.pdf',
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#080c14' },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      };
-      html2pdf().set(opt).from(element).save();
+    // تفعيل أو تعطيل الخلفيات والألوان
+    function toggleBackgrounds(checkbox) {
+      if (!checkbox.checked) {
+        document.body.classList.add('no-backgrounds');
+      } else {
+        document.body.classList.remove('no-backgrounds');
+      }
+    }
+
+    // ضغط المستند ليتسع في صفحة واحدة
+    function toggleOnePage(checkbox) {
+      const container = document.getElementById('study-guide');
+      if (checkbox.checked) {
+        container.classList.add('one-page-mode');
+      } else {
+        container.classList.remove('one-page-mode');
+      }
+    }
+
+    // تحديث أبعاد ومقاس صفحة الـ PDF
+    function updatePageSize() {
+      const select = document.getElementById('paper-size');
+      const customControls = document.getElementById('custom-size-controls');
+      const styleTag = document.getElementById('dynamic-page-size');
+
+      if (select.value === 'custom') {
+        customControls.style.display = 'flex';
+        const w = document.getElementById('custom-w').value;
+        const h = document.getElementById('custom-h').value;
+        styleTag.innerHTML = `@page { size: ${w}mm ${h}mm; margin: 10mm; }`;
+      } else {
+        customControls.style.display = 'none';
+        styleTag.innerHTML = `@page { size: ${select.value}; margin: 10mm; }`;
+      }
+    }
+
+    // طباعة الـ PDF عبر المحرك الأصلي (Vector/Text PDF حاد جداً)
+    function printNativePDF() {
+      window.print();
     }
   </script>
 </body>
