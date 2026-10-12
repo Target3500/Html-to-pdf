@@ -1,521 +1,333 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Poultry Science: Population Genetics</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fira+Code:wght@500;700&display=swap" rel="stylesheet">
+  <title>أفضل لوحات الألوان - Premium Color Palettes</title>
   <style>
+    :root {
+      --bg: #0b1120;
+      --card-bg: #151f32;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border: #223049;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      -webkit-print-color-adjust: exact !important;
-      print-color-adjust: exact !important;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
 
     body {
-      background-color: #080c14;
-      color: #e2e8f0;
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px 16px 60px;
+      background-color: var(--bg);
+      color: var(--text);
+      padding: 2.5rem 1.5rem;
     }
 
-    .top-bar {
-      position: sticky;
-      top: 10px;
-      z-index: 1000;
-      background: rgba(15, 23, 42, 0.95);
-      border: 1px solid rgba(56, 189, 248, 0.4);
-      padding: 12px 24px;
-      border-radius: 50px;
-      margin-bottom: 24px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    }
-
-    .print-btn {
-      background: #059669;
-      color: white;
-      border: none;
-      padding: 10px 24px;
-      border-radius: 30px;
-      font-weight: 800;
-      font-size: 15px;
-      cursor: pointer;
-      box-shadow: 0 2px 10px rgba(5, 150, 105, 0.4);
-    }
-
-    .print-btn:hover {
-      background: #047857;
-    }
-
-    .container {
-      width: 800px;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-      background-color: #080c14;
-    }
-
-    .main-header {
+    header {
       text-align: center;
-      padding: 20px 10px 24px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 3rem;
     }
 
-    .header-badge {
-      display: inline-block;
-      font-size: 12px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 1px;
+    header h1 {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
       color: #38bdf8;
-      background: rgba(56, 189, 248, 0.1);
-      padding: 4px 14px;
-      border-radius: 9999px;
-      border: 1px solid rgba(56, 189, 248, 0.25);
-      margin-bottom: 8px;
     }
 
-    .main-title { font-size: 26px; font-weight: 800; color: #ffffff; }
-    .main-subtitle { font-size: 13.5px; color: #94a3b8; margin-top: 4px; }
+    header p {
+      color: var(--text-muted);
+      font-size: 1rem;
+    }
 
-    .section-card {
-      border-radius: 12px;
-      padding: 22px 24px;
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      max-width: 1450px;
+      margin: 0 auto;
+    }
+
+    .palette-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .palette-card:hover {
+      transform: translateY(-4px);
+      border-color: #38bdf8;
+    }
+
+    .palette-colors {
       display: flex;
-      flex-direction: column;
-      gap: 16px;
+      height: 110px;
     }
 
-    .section-meta {
+    .color-swatch {
+      flex: 1;
+      position: relative;
+      cursor: pointer;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      padding-bottom: 8px;
+      transition: flex 0.25s ease;
+    }
+
+    .color-swatch:hover {
+      flex: 1.6;
+    }
+
+    .color-code {
+      font-size: 0.72rem;
+      font-family: monospace;
+      padding: 2px 4px;
+      border-radius: 4px;
+      background: rgba(0, 0, 0, 0.65);
+      color: #fff;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      direction: ltr;
+    }
+
+    .color-swatch:hover .color-code {
+      opacity: 1;
+    }
+
+    .palette-info {
+      padding: 1rem 1.25rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 10px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-      flex-wrap: wrap;
-      gap: 8px;
     }
 
-    .section-title { font-size: 18px; font-weight: 800; }
-    .topic-tag {
-      font-size: 11px;
-      font-weight: 700;
-      padding: 3px 12px;
-      border-radius: 9999px;
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      text-transform: uppercase;
+    .palette-title {
+      font-size: 1rem;
+      font-weight: 600;
     }
 
-    .content-box { font-size: 13.5px; line-height: 1.7; color: #cbd5e1; }
-    .content-box p { margin-bottom: 10px; }
-    .content-box strong { color: #ffffff; }
+    .palette-category {
+      font-size: 0.75rem;
+      color: #38bdf8;
+      background: rgba(56, 189, 248, 0.1);
+      padding: 3px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(56, 189, 248, 0.25);
+    }
 
-    .image-slot {
-      width: 100%;
-      border: 2px dashed rgba(255, 255, 255, 0.25);
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #38bdf8;
+      color: #0b1120;
+      padding: 10px 22px;
       border-radius: 8px;
-      padding: 20px 14px;
-      text-align: center;
-      cursor: pointer;
-      background: rgba(0, 0, 0, 0.25);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-    }
-
-    .slot-icon { font-size: 22px; }
-    .slot-label { font-size: 13px; font-weight: 700; color: #f1f5f9; }
-    .slot-hint { font-size: 11.5px; color: #94a3b8; }
-
-    .preview-img {
-      display: none;
-      width: 100%;
-      max-height: 350px;
-      object-fit: contain;
-      border-radius: 6px;
-    }
-
-    .clean-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 10px 0;
-      font-size: 12.5px;
-      text-align: left;
-    }
-
-    .clean-table th, .clean-table td {
-      padding: 8px 12px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .clean-table th { background: rgba(0, 0, 0, 0.3); font-weight: 700; }
-
-    .formula-banner {
-      font-family: 'Fira Code', monospace;
-      font-size: 15px;
       font-weight: 700;
-      text-align: center;
-      padding: 12px;
-      border-radius: 6px;
-      background: rgba(0, 0, 0, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      margin: 10px 0;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+      pointer-events: none;
+      direction: ltr;
     }
 
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-      margin-top: 8px;
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
     }
-
-    .sub-panel {
-      background: rgba(0, 0, 0, 0.25);
-      border-radius: 8px;
-      padding: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-    }
-
-    .sub-panel h4 { font-size: 13.5px; font-weight: 700; margin-bottom: 6px; }
-
-    .theme-navy { background-color: #080f1a; border: 1px solid rgba(96, 165, 250, 0.25); color: #e2e8f0; }
-    .theme-navy .section-title, .theme-navy .topic-tag { color: #e6c594; }
-    .theme-navy .clean-table th { color: #60a5fa; }
-    .theme-navy .formula-banner { color: #93c5fd; }
-
-    .theme-emerald { background-color: #061712; border: 1px solid rgba(52, 211, 153, 0.25); color: #edf5f0; }
-    .theme-emerald .section-title, .theme-emerald .topic-tag { color: #e2b15c; }
-    .theme-emerald .clean-table th { color: #34d399; }
-    .theme-emerald .formula-banner { color: #a7f3d0; }
-
-    .theme-umber { background-color: #140e0a; border: 1px solid rgba(217, 119, 6, 0.25); color: #fdfaf3; }
-    .theme-umber .section-title, .theme-umber .topic-tag { color: #e09f5a; }
-    .theme-umber .clean-table th { color: #fbbf24; }
-    .theme-umber .formula-banner { color: #fde68a; }
-
-    .theme-plum { background-color: #130a17; border: 1px solid rgba(192, 132, 252, 0.22); color: #f5eff9; }
-    .theme-plum .section-title, .theme-plum .topic-tag { color: #fbbf24; }
-    .theme-plum .clean-table th { color: #c084fc; }
-    .theme-plum .formula-banner { color: #e9d5ff; }
-
-    .theme-teal { background-color: #061417; border: 1px solid rgba(45, 212, 191, 0.22); color: #e6f7f6; }
-    .theme-teal .section-title, .theme-teal .topic-tag { color: #e2be74; }
-    .theme-teal .clean-table th { color: #2dd4bf; }
-    .theme-teal .formula-banner { color: #99f6e4; }
-
-    .theme-burgundy { background-color: #120508; border: 1px solid rgba(226, 75, 96, 0.26); color: #faede9; }
-    .theme-burgundy .section-title, .theme-burgundy .topic-tag { color: #f3c27e; }
-    .theme-burgundy .clean-table th { color: #f87171; }
-    .theme-burgundy .formula-banner { color: #fecaca; }
-
-    .theme-olive { background-color: #11140b; border: 1px solid rgba(163, 230, 53, 0.2); color: #f5f8ea; }
-    .theme-olive .section-title, .theme-olive .topic-tag { color: #bef264; }
-    .theme-olive .clean-table th { color: #a3e635; }
-    .theme-olive .formula-banner { color: #d9f99d; }
   </style>
 </head>
 <body>
 
-  <div class="top-bar">
-    <button class="print-btn" onclick="saveContinuousPDF()">📥 حفظ صفحة واحدة طويلة (عالي الدقة)</button>
-  </div>
+  <header>
+    <h1>مكتبة لوحات الألوان المختارة</h1>
+    <p>أفضل التنسيقات المريحة للعين والعلمية — اضغط على أي شريط لنسخ رمز اللون</p>
+  </header>
 
-  <div class="container" id="study-guide">
-    <div class="main-header">
-      <div class="header-badge">Poultry Science Department</div>
-      <h1 class="main-title">Population Genetics & Hardy-Weinberg Equilibrium</h1>
-      <p class="main-subtitle">Comprehensive study guide based on the lecture by Pr. Dr. Mohamed Sharaf</p>
-    </div>
+  <main class="palette-grid" id="palettesContainer"></main>
 
-    <!-- Section 1 -->
-    <div class="section-card theme-navy">
-      <div class="section-meta">
-        <h2 class="section-title">1. Introduction & Population vs Mendelian Genetics</h2>
-        <div class="topic-tag">Foundations</div>
-      </div>
-      <div class="content-box">
-        <p><strong>Population:</strong> A group of birds or organisms belonging to the same species, living in the same geographical area (e.g., one farm), at the same time (e.g., same season or period).</p>
-        <p><strong>Population Genetics:</strong> The application of genetic principles to entire populations of organisms rather than single mating pairs. It studies how allele frequencies change in a whole flock over generations.</p>
-        <p><strong>Dominance vs. Frequency:</strong> Dominance controls how an allele is expressed in an individual phenotype, NOT how common it becomes across a population. A dominant allele will not automatically take over a flock.</p>
-
-        <table class="clean-table">
-          <thead>
-            <tr>
-              <th>Feature</th>
-              <th>Mendelian Genetics</th>
-              <th>Population Genetics</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Definition</strong></td>
-              <td>Observable traits based on simple dominant-recessive relationships.</td>
-              <td>Application of genetic principles to entire populations.</td>
-            </tr>
-            <tr>
-              <td><strong>Unit of Study</strong></td>
-              <td>The individual progeny (single cross).</td>
-              <td>The entire population (flock).</td>
-            </tr>
-            <tr>
-              <td><strong>Measurements</strong></td>
-              <td>Classifying individuals (e.g., 3:1 ratio).</td>
-              <td>Needs specific mathematical frequencies.</td>
-            </tr>
-            <tr>
-              <td><strong>Environment</strong></td>
-              <td>Plays no role: Phenotype = Genotype</td>
-              <td>Plays a major role: Phenotype = Genotype + Environment</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="image-slot" onclick="triggerUpload(this)">
-        <div class="slot-icon">📷</div>
-        <div class="slot-label">+ Add Image: Population & Farm Overview</div>
-        <div class="slot-hint">Suggested: Farm image showing a flock or the population definition diagram.</div>
-        <input type="file" accept="image/*" style="display:none" onchange="previewImage(event, this)">
-        <img class="preview-img" alt="Population Overview">
-      </div>
-    </div>
-
-    <!-- Section 2 -->
-    <div class="section-card theme-emerald">
-      <div class="section-meta">
-        <h2 class="section-title">2. Gene, Alleles & Zygosity States</h2>
-        <div class="topic-tag">Terminology</div>
-      </div>
-      <div class="content-box">
-        <p><strong>Gene:</strong> The functional unit of genetic information in an individual located at a specific locus on a chromosome.</p>
-        <p><strong>Alleles:</strong> Alternative molecular forms of a gene pair. <em>Crucial rule:</em> Alleles, not genotypes, are transmitted directly from one generation to the next.</p>
-        <p><strong>Gene Pool:</strong> The complete set of all genetic information (all copies of all alleles) across all individuals in a population.</p>
-
-        <div class="grid-2">
-          <div class="sub-panel">
-            <h4>Zygosity Conditions:</h4>
-            <p>• <strong>Homozygous:</strong> Alleles are identical (e.g., AA or aa).</p>
-            <p>• <strong>Heterozygous:</strong> Alleles are different (e.g., Aa or CB CW).</p>
-            <p>• <strong>Hemizygous:</strong> Only one allele exists for a trait (e.g., sex-linked genes on XY or ZW chromosomes).</p>
-          </div>
-          <div class="sub-panel">
-            <h4>Phenotypic Mirroring:</h4>
-            <p>For classical Mendelian traits, phenotype is an exact reflection of genotype. In codominance (such as Andalusian blue chickens), heterozygotes display a distinct blended phenotype.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="image-slot" onclick="triggerUpload(this)">
-        <div class="slot-icon">📷</div>
-        <div class="slot-label">+ Add Image: Homologous Chromosomes & Locus Diagram</div>
-        <div class="slot-hint">Suggested: Chromosomes diagram with gene loci and alleles.</div>
-        <input type="file" accept="image/*" style="display:none" onchange="previewImage(event, this)">
-        <img class="preview-img" alt="Gene Locus and Chromosomes">
-      </div>
-    </div>
-
-    <!-- Section 3 -->
-    <div class="section-card theme-umber">
-      <div class="section-meta">
-        <h2 class="section-title">3. Dihybrid Inheritance & Epistasis in Poultry</h2>
-        <div class="topic-tag">Avian Traits</div>
-      </div>
-      <div class="content-box">
-        <p><strong>Mendel's 2nd Law (Dihybrid Cross):</strong> Combining feather type (Normal F vs. Silkie f) with leg feathering (Feathered Pti vs. Bare pti) gives the classical 9:3:3:1 ratio in F2.</p>
-        <p><strong>Epistasis (Comb Shape Interaction):</strong> Two different genes interact to form a single physical trait (comb shape):</p>
-        
-        <table class="clean-table">
-          <thead>
-            <tr>
-              <th>Comb Shape</th>
-              <th>Genotype Formula</th>
-              <th>F2 Ratio</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td><strong>Walnut Comb</strong></td><td>R_ P_</td><td>9/16</td></tr>
-            <tr><td><strong>Rose Comb</strong></td><td>R_ pp</td><td>3/16</td></tr>
-            <tr><td><strong>Pea Comb</strong></td><td>rr P_</td><td>3/16</td></tr>
-            <tr><td><strong>Single Comb</strong></td><td>rr pp</td><td>1/16</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="image-slot" onclick="triggerUpload(this)">
-        <div class="slot-icon">📷</div>
-        <div class="slot-label">+ Add Image: Chicken Comb Shapes (Epistasis)</div>
-        <div class="slot-hint">Suggested: The dihybrid cross chart or comb shape drawings.</div>
-        <input type="file" accept="image/*" style="display:none" onchange="previewImage(event, this)">
-        <img class="preview-img" alt="Chicken Comb Shapes">
-      </div>
-    </div>
-
-    <!-- Section 4 -->
-    <div class="section-card theme-plum">
-      <div class="section-meta">
-        <h2 class="section-title">4. Calculating Genotypic & Allelic Frequencies</h2>
-        <div class="topic-tag">Formulas</div>
-      </div>
-      <div class="content-box">
-        <p>In diploid organisms, if there are N individuals, total alleles = 2N.</p>
-        <div class="formula-banner">
-          Genotype Freq = (Individuals with genotype) / (Total N)<br>
-          Allele Freq = (Copies of that allele) / (2N Total alleles)
-        </div>
-        <p>• Frequency of dominant allele (p) = D + 0.5(H)</p>
-        <p>• Frequency of recessive allele (q) = R + 0.5(H)</p>
-      </div>
-
-      <div class="image-slot" onclick="triggerUpload(this)">
-        <div class="slot-icon">📷</div>
-        <div class="slot-label">+ Add Image: Allele Counting Model</div>
-        <div class="slot-hint">Suggested: Graphic demonstrating allele calculations.</div>
-        <input type="file" accept="image/*" style="display:none" onchange="previewImage(event, this)">
-        <img class="preview-img" alt="Allele Model">
-      </div>
-    </div>
-
-    <!-- Section 5 -->
-    <div class="section-card theme-teal">
-      <div class="section-meta">
-        <h2 class="section-title">5. The Hardy-Weinberg Law (1909)</h2>
-        <div class="topic-tag">Equilibrium Model</div>
-      </div>
-      <div class="content-box">
-        <div class="formula-banner">
-          p + q = 1 | p^2 + 2pq + q^2 = 1
-        </div>
-        <div class="grid-2">
-          <div class="sub-panel">
-            <h4>The 5 Mandatory Assumptions:</h4>
-            <p>1. Very large population size<br>2. Random mating (panmixia)<br>3. No migration<br>4. No mutations<br>5. No selection</p>
-          </div>
-          <div class="sub-panel">
-            <h4>Purpose of HWE:</h4>
-            <p>Acts as a <strong>Null Hypothesis</strong> to detect and measure evolutionary changes in flocks.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="image-slot" onclick="triggerUpload(this)">
-        <div class="slot-icon">📷</div>
-        <div class="slot-label">+ Add Image: Hardy-Weinberg Punnett Square</div>
-        <div class="slot-hint">Suggested: Punnett square or equilibrium graphic.</div>
-        <input type="file" accept="image/*" style="display:none" onchange="previewImage(event, this)">
-        <img class="preview-img" alt="HWE Graphic">
-      </div>
-    </div>
-
-    <!-- Section 6 -->
-    <div class="section-card theme-burgundy">
-      <div class="section-meta">
-        <h2 class="section-title">6. Fully Solved Practice Problems from Lecture</h2>
-        <div class="topic-tag">Step-by-Step</div>
-      </div>
-      <div class="content-box">
-        <p><strong>Problem 1: Chicken Feather Colors (500 birds)</strong></p>
-        <p>• Data: White (BB) = 245, Blue (Bb) = 210, Black (bb) = 45.</p>
-        <p>• Allelic frequencies: p(B) = 0.7 | q(b) = 0.3 -> Population is in equilibrium.</p>
-        <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin:12px 0;">
-        <p><strong>Problem 2: PTC Tasting (1000 individuals)</strong></p>
-        <p>• Non-tasters (tt) = 360 -> q^2 = 0.36 -> q = 0.6 -> p = 0.4.</p>
-      </div>
-    </div>
-
-    <!-- Section 7 -->
-    <div class="section-card theme-olive">
-      <div class="section-meta">
-        <h2 class="section-title">7. Forces Altering Genetic Equilibrium</h2>
-        <div class="topic-tag">Evolutionary Factors</div>
-      </div>
-      <div class="content-box">
-        <p>• <strong>Genetic Drift:</strong> Random changes in allele frequencies in small flocks.</p>
-        <p>• <strong>Selection:</strong> Differential survival or artificial breeding decisions.</p>
-        <p>• <strong>Migration:</strong> Gene flow through adding or removing birds.</p>
-      </div>
-    </div>
-  </div>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <div id="toast">تم النسخ</div>
 
   <script>
-    function triggerUpload(slot) {
-      slot.querySelector('input[type="file"]').click();
-    }
-
-    function previewImage(event, input) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const img = input.nextElementSibling;
-          img.src = e.target.result;
-          img.style.display = 'block';
-          const parent = input.parentElement;
-          parent.classList.add('has-image');
-          parent.querySelector('.slot-icon').style.display = 'none';
-          parent.querySelector('.slot-label').style.display = 'none';
-          parent.querySelector('.slot-hint').style.display = 'none';
-          parent.style.borderStyle = 'solid';
-          parent.style.padding = '6px';
-        };
-        reader.readAsDataURL(file);
+    const palettes = [
+      {
+        name: "Emerald, Burgundy & Gold Highlight",
+        category: "Featured Editorial",
+        colors: ["#0B3B2C", "#145A43", "#6B1D2F", "#F6C90E", "#F8F9FA"]
+      },
+      {
+        name: "Deep Forest & Warm Mustard",
+        category: "Nature & Reading",
+        colors: ["#1B4332", "#2D6A4F", "#74C69D", "#D4A373", "#FBF5E6"]
+      },
+      {
+        name: "Egyptian Avrol & Sand",
+        category: "Cultural Heritage",
+        colors: ["#2B3A42", "#4F6D7A", "#C0D6DF", "#D8B168", "#F5EBE0"]
+      },
+      {
+        name: "Royal Navy & Imperial Gold",
+        category: "Luxury Corporate",
+        colors: ["#0B192C", "#1E3E62", "#D4AF37", "#F1D06E", "#F8FAFC"]
+      },
+      {
+        name: "Sage Calm & Burgundy Touch",
+        category: "Eye-Comfort",
+        colors: ["#2D4030", "#587B5B", "#997379", "#78283B", "#F3EFE0"]
+      },
+      {
+        name: "Slate Blue & Soft Amber",
+        category: "Modern UI",
+        colors: ["#1E293B", "#334155", "#64748B", "#F59E0B", "#F8FAFC"]
+      },
+      {
+        name: "Moroccan Terracotta & Teal",
+        category: "Warm & Deep",
+        colors: ["#1D4E5B", "#0B2D38", "#C15C3D", "#E09F67", "#FDF6EC"]
+      },
+      {
+        name: "Nordic Frost & Crimson Highlight",
+        category: "Minimal Clean",
+        colors: ["#1A2530", "#3E5363", "#9BB1C2", "#C0392B", "#F4F7F6"]
+      },
+      {
+        name: "Midnight Prussian & Champagne",
+        category: "Luxury Dark",
+        colors: ["#0A1128", "#1C2D5A", "#4B6584", "#E5C384", "#F7F1E3"]
+      },
+      {
+        name: "Matcha Botanical & Burnt Sienna",
+        category: "Organic Study",
+        colors: ["#2F3E34", "#4B644A", "#889C73", "#B2533E", "#FAF8F5"]
+      },
+      {
+        name: "Warm Editorial Bookshelf",
+        category: "Long Reading",
+        colors: ["#2C2523", "#5C4B44", "#9C8174", "#D87D4A", "#FAF3E0"]
+      },
+      {
+        name: "Pharaonic Lapis & Solar Ochre",
+        category: "Egyptian Classic",
+        colors: ["#0F2537", "#1A4971", "#2A7B9B", "#E5A93C", "#FFF6E5"]
+      },
+      {
+        name: "Espresso & Salted Caramel",
+        category: "Warm Neutral",
+        colors: ["#231610", "#4B382A", "#846549", "#DDB892", "#F6EDE2"]
+      },
+      {
+        name: "Oceanic Depth & Soft Coral",
+        category: "Balanced Fresh",
+        colors: ["#0A2540", "#20466E", "#4285B4", "#E76F51", "#F4FAFF"]
+      },
+      {
+        name: "Charcoal & Tuscan Sun",
+        category: "High Contrast",
+        colors: ["#191919", "#323232", "#707070", "#E5A922", "#F9F9F9"]
+      },
+      {
+        name: "Desert Dusk & Plum",
+        category: "Earthy Rich",
+        colors: ["#33272A", "#594246", "#8A584C", "#D99B82", "#F5E9E2"]
+      },
+      {
+        name: "Bonsai Moss & Crimson Berry",
+        category: "Japanese Nature",
+        colors: ["#1C2826", "#3E5641", "#7A9E7E", "#902923", "#F2F5F3"]
+      },
+      {
+        name: "Velvet Plum & Vintage Gold",
+        category: "Luxury Heritage",
+        colors: ["#22162B", "#451952", "#662549", "#D4A373", "#FBF5F3"]
+      },
+      {
+        name: "Teal Matrix & Electric Amber",
+        category: "Modern Tech",
+        colors: ["#051923", "#003554", "#006494", "#FFAA00", "#F0F8FF"]
+      },
+      {
+        name: "Academic Slate & Scarlet",
+        category: "Medical & Science",
+        colors: ["#1E252B", "#2C3E50", "#7F8C8D", "#C0392B", "#ECF0F1"]
+      },
+      {
+        name: "Autumn Forest & Marigold",
+        category: "Warm Comfort",
+        colors: ["#264653", "#2A9D8F", "#E76F51", "#F4A261", "#E9C46A"]
+      },
+      {
+        name: "Paper Ink & Red Wax Seal",
+        category: "Classic Journal",
+        colors: ["#1F1F1F", "#3B3B3B", "#8C271E", "#DDA15E", "#FDFBF7"]
+      },
+      {
+        name: "Olive Branch & Warm Ochre",
+        category: "Mediterranean",
+        colors: ["#283618", "#606C38", "#A3B18A", "#DDA15E", "#FEFAE0"]
+      },
+      {
+        name: "Cosmic Indigo & Neon Yellow",
+        category: "Cyber Focus",
+        colors: ["#0B0C10", "#1F2833", "#45A29E", "#FFE600", "#C5C6C7"]
+      },
+      {
+        name: "Gentle Ceramic & Brick Accent",
+        category: "Pastel Eye-Safe",
+        colors: ["#222831", "#393E46", "#8F857D", "#B35446", "#EEEEEE"]
       }
+    ];
+
+    const container = document.getElementById('palettesContainer');
+    const toast = document.getElementById('toast');
+
+    function copyHex(color) {
+      navigator.clipboard.writeText(color);
+      toast.innerText = `تم النسخ: ${color}`;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 1500);
     }
 
-    async function saveContinuousPDF() {
-      const topBar = document.querySelector('.top-bar');
-      const btn = document.querySelector('.print-btn');
-      btn.innerText = "⏳ جاري التصدير بدقة فائقة...";
+    palettes.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'palette-card';
 
-      // 1. إخفاء شريط الأدوات والمربعات غير المستخدمة
-      topBar.style.display = 'none';
-      const emptySlots = document.querySelectorAll('.image-slot:not(.has-image)');
-      emptySlots.forEach(slot => slot.style.display = 'none');
+      const colorsDiv = document.createElement('div');
+      colorsDiv.className = 'palette-colors';
 
-      const element = document.getElementById('study-guide');
+      item.colors.forEach(color => {
+        const swatch = document.createElement('div');
+        swatch.className = 'color-swatch';
+        swatch.style.backgroundColor = color;
+        swatch.onclick = () => copyHex(color);
 
-      // 2. استخدام أقصى دقة (scale: 4) لمنع أي تشويش عند التكبير
-      const canvas = await html2canvas(element, {
-        scale: 4,
-        useCORS: true,
-        backgroundColor: '#080c14',
-        logging: false,
-        windowWidth: element.scrollWidth
+        const label = document.createElement('span');
+        label.className = 'color-code';
+        label.innerText = color;
+
+        swatch.appendChild(label);
+        colorsDiv.appendChild(swatch);
       });
 
-      // 3. إعادة إظهار شريط الأدوات
-      topBar.style.display = 'flex';
-      emptySlots.forEach(slot => slot.style.display = 'flex');
-      btn.innerText = "📥 حفظ صفحة واحدة طويلة (عالي الدقة)";
+      const infoDiv = document.createElement('div');
+      infoDiv.className = 'palette-info';
+      infoDiv.innerHTML = `
+        <span class="palette-title">${item.name}</span>
+        <span class="palette-category">${item.category}</span>
+      `;
 
-      // 4. ضبط أبعاد الصفحة بدقة بكسل-إلى-نقطة
-      const imgWidth = element.offsetWidth;
-      const imgHeight = element.scrollHeight;
-
-      const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF({
-        orientation: 'p',
-        unit: 'px',
-        format: [imgWidth, imgHeight],
-        hotfixes: ['px_scaling']
-      });
-
-      // 5. لصق الصورة من النقطة (0, 0) مباشرة دون أي مساحة بيضاء
-      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, imgWidth, imgHeight);
-      pdf.save('Poultry_Science_Continuous.pdf');
-    }
+      card.appendChild(colorsDiv);
+      card.appendChild(infoDiv);
+      container.appendChild(card);
+    });
   </script>
+
 </body>
 </html>
