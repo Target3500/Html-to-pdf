@@ -3,330 +3,145 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>أفضل لوحات الألوان - Premium Color Palettes</title>
+  <title>HTML Downloader</title>
   <style>
-    :root {
-      --bg: #0b1120;
-      --card-bg: #151f32;
-      --text: #f1f5f9;
-      --text-muted: #94a3b8;
-      --border: #223049;
-    }
-
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: system-ui, -apple-system, sans-serif;
     }
 
     body {
-      background-color: var(--bg);
-      color: var(--text);
-      padding: 2.5rem 1.5rem;
+      background-color: #0b1120;
+      color: #f1f5f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
     }
 
-    header {
-      text-align: center;
-      margin-bottom: 3rem;
+    .container {
+      background: #151f32;
+      border: 1px solid #223049;
+      border-radius: 12px;
+      padding: 24px;
+      width: 100%;
+      max-width: 750px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
     }
 
-    header h1 {
-      font-size: 2.2rem;
-      margin-bottom: 0.5rem;
+    h1 {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
       color: #38bdf8;
     }
 
-    header p {
-      color: var(--text-muted);
-      font-size: 1rem;
+    p {
+      font-size: 0.9rem;
+      color: #94a3b8;
+      margin-bottom: 16px;
     }
 
-    .palette-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
-      max-width: 1450px;
-      margin: 0 auto;
+    textarea {
+      width: 100%;
+      height: 280px;
+      background: #0b1120;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      color: #f8fafc;
+      font-family: monospace;
+      font-size: 0.9rem;
+      padding: 12px;
+      resize: vertical;
+      direction: ltr;
+      outline: none;
     }
 
-    .palette-card {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
-      transition: transform 0.2s ease, border-color 0.2s ease;
-    }
-
-    .palette-card:hover {
-      transform: translateY(-4px);
+    textarea:focus {
       border-color: #38bdf8;
     }
 
-    .palette-colors {
+    .controls {
       display: flex;
-      height: 110px;
+      gap: 12px;
+      margin-top: 16px;
     }
 
-    .color-swatch {
+    input[type="text"] {
       flex: 1;
-      position: relative;
-      cursor: pointer;
-      display: flex;
-      align-items: flex-end;
-      justify-content: center;
-      padding-bottom: 8px;
-      transition: flex 0.25s ease;
-    }
-
-    .color-swatch:hover {
-      flex: 1.6;
-    }
-
-    .color-code {
-      font-size: 0.72rem;
-      font-family: monospace;
-      padding: 2px 4px;
-      border-radius: 4px;
-      background: rgba(0, 0, 0, 0.65);
-      color: #fff;
-      opacity: 0;
-      transition: opacity 0.2s ease;
-      direction: ltr;
-    }
-
-    .color-swatch:hover .color-code {
-      opacity: 1;
-    }
-
-    .palette-info {
-      padding: 1rem 1.25rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .palette-title {
-      font-size: 1rem;
-      font-weight: 600;
-    }
-
-    .palette-category {
-      font-size: 0.75rem;
-      color: #38bdf8;
-      background: rgba(56, 189, 248, 0.1);
-      padding: 3px 9px;
-      border-radius: 999px;
-      border: 1px solid rgba(56, 189, 248, 0.25);
-    }
-
-    #toast {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: #38bdf8;
-      color: #0b1120;
-      padding: 10px 22px;
+      background: #0b1120;
+      border: 1px solid #334155;
       border-radius: 8px;
-      font-weight: 700;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.45);
-      transition: transform 0.3s ease;
-      z-index: 1000;
-      pointer-events: none;
+      color: #fff;
+      padding: 10px 14px;
+      font-size: 0.95rem;
+      outline: none;
       direction: ltr;
     }
 
-    #toast.show {
-      transform: translateX(-50%) translateY(0);
+    input[type="text"]:focus {
+      border-color: #38bdf8;
+    }
+
+    button {
+      background: #0284c7;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 24px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    button:hover {
+      background: #0369a1;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>مكتبة لوحات الألوان المختارة</h1>
-    <p>أفضل التنسيقات المريحة للعين والعلمية — اضغط على أي شريط لنسخ رمز اللون</p>
-  </header>
+  <div class="container">
+    <h1>تنزيل ملف HTML</h1>
+    <p>الصق كود الـ HTML هنا واضغط زر التحميل لحفظه مباشرة على جهازك بصيغة .html</p>
 
-  <main class="palette-grid" id="palettesContainer"></main>
+    <textarea id="codeArea" placeholder="<!DOCTYPE html>&#10;<html>&#10;  ...&#10;</html>"></textarea>
 
-  <div id="toast">تم النسخ</div>
+    <div class="controls">
+      <input type="text" id="fileName" value="index.html" placeholder="اسم الملف (مثال: my-page.html)">
+      <button onclick="downloadHtml()">Download</button>
+    </div>
+  </div>
 
   <script>
-    const palettes = [
-      {
-        name: "Emerald, Burgundy & Gold Highlight",
-        category: "Featured Editorial",
-        colors: ["#0B3B2C", "#145A43", "#6B1D2F", "#F6C90E", "#F8F9FA"]
-      },
-      {
-        name: "Deep Forest & Warm Mustard",
-        category: "Nature & Reading",
-        colors: ["#1B4332", "#2D6A4F", "#74C69D", "#D4A373", "#FBF5E6"]
-      },
-      {
-        name: "Egyptian Avrol & Sand",
-        category: "Cultural Heritage",
-        colors: ["#2B3A42", "#4F6D7A", "#C0D6DF", "#D8B168", "#F5EBE0"]
-      },
-      {
-        name: "Royal Navy & Imperial Gold",
-        category: "Luxury Corporate",
-        colors: ["#0B192C", "#1E3E62", "#D4AF37", "#F1D06E", "#F8FAFC"]
-      },
-      {
-        name: "Sage Calm & Burgundy Touch",
-        category: "Eye-Comfort",
-        colors: ["#2D4030", "#587B5B", "#997379", "#78283B", "#F3EFE0"]
-      },
-      {
-        name: "Slate Blue & Soft Amber",
-        category: "Modern UI",
-        colors: ["#1E293B", "#334155", "#64748B", "#F59E0B", "#F8FAFC"]
-      },
-      {
-        name: "Moroccan Terracotta & Teal",
-        category: "Warm & Deep",
-        colors: ["#1D4E5B", "#0B2D38", "#C15C3D", "#E09F67", "#FDF6EC"]
-      },
-      {
-        name: "Nordic Frost & Crimson Highlight",
-        category: "Minimal Clean",
-        colors: ["#1A2530", "#3E5363", "#9BB1C2", "#C0392B", "#F4F7F6"]
-      },
-      {
-        name: "Midnight Prussian & Champagne",
-        category: "Luxury Dark",
-        colors: ["#0A1128", "#1C2D5A", "#4B6584", "#E5C384", "#F7F1E3"]
-      },
-      {
-        name: "Matcha Botanical & Burnt Sienna",
-        category: "Organic Study",
-        colors: ["#2F3E34", "#4B644A", "#889C73", "#B2533E", "#FAF8F5"]
-      },
-      {
-        name: "Warm Editorial Bookshelf",
-        category: "Long Reading",
-        colors: ["#2C2523", "#5C4B44", "#9C8174", "#D87D4A", "#FAF3E0"]
-      },
-      {
-        name: "Pharaonic Lapis & Solar Ochre",
-        category: "Egyptian Classic",
-        colors: ["#0F2537", "#1A4971", "#2A7B9B", "#E5A93C", "#FFF6E5"]
-      },
-      {
-        name: "Espresso & Salted Caramel",
-        category: "Warm Neutral",
-        colors: ["#231610", "#4B382A", "#846549", "#DDB892", "#F6EDE2"]
-      },
-      {
-        name: "Oceanic Depth & Soft Coral",
-        category: "Balanced Fresh",
-        colors: ["#0A2540", "#20466E", "#4285B4", "#E76F51", "#F4FAFF"]
-      },
-      {
-        name: "Charcoal & Tuscan Sun",
-        category: "High Contrast",
-        colors: ["#191919", "#323232", "#707070", "#E5A922", "#F9F9F9"]
-      },
-      {
-        name: "Desert Dusk & Plum",
-        category: "Earthy Rich",
-        colors: ["#33272A", "#594246", "#8A584C", "#D99B82", "#F5E9E2"]
-      },
-      {
-        name: "Bonsai Moss & Crimson Berry",
-        category: "Japanese Nature",
-        colors: ["#1C2826", "#3E5641", "#7A9E7E", "#902923", "#F2F5F3"]
-      },
-      {
-        name: "Velvet Plum & Vintage Gold",
-        category: "Luxury Heritage",
-        colors: ["#22162B", "#451952", "#662549", "#D4A373", "#FBF5F3"]
-      },
-      {
-        name: "Teal Matrix & Electric Amber",
-        category: "Modern Tech",
-        colors: ["#051923", "#003554", "#006494", "#FFAA00", "#F0F8FF"]
-      },
-      {
-        name: "Academic Slate & Scarlet",
-        category: "Medical & Science",
-        colors: ["#1E252B", "#2C3E50", "#7F8C8D", "#C0392B", "#ECF0F1"]
-      },
-      {
-        name: "Autumn Forest & Marigold",
-        category: "Warm Comfort",
-        colors: ["#264653", "#2A9D8F", "#E76F51", "#F4A261", "#E9C46A"]
-      },
-      {
-        name: "Paper Ink & Red Wax Seal",
-        category: "Classic Journal",
-        colors: ["#1F1F1F", "#3B3B3B", "#8C271E", "#DDA15E", "#FDFBF7"]
-      },
-      {
-        name: "Olive Branch & Warm Ochre",
-        category: "Mediterranean",
-        colors: ["#283618", "#606C38", "#A3B18A", "#DDA15E", "#FEFAE0"]
-      },
-      {
-        name: "Cosmic Indigo & Neon Yellow",
-        category: "Cyber Focus",
-        colors: ["#0B0C10", "#1F2833", "#45A29E", "#FFE600", "#C5C6C7"]
-      },
-      {
-        name: "Gentle Ceramic & Brick Accent",
-        category: "Pastel Eye-Safe",
-        colors: ["#222831", "#393E46", "#8F857D", "#B35446", "#EEEEEE"]
+    function downloadHtml() {
+      const code = document.getElementById('codeArea').value;
+      let filename = document.getElementById('fileName').value.trim();
+
+      if (!code.trim()) {
+        alert('من فضلك الصق كود HTML أولاً!');
+        return;
       }
-    ];
 
-    const container = document.getElementById('palettesContainer');
-    const toast = document.getElementById('toast');
+      if (!filename) {
+        filename = 'index.html';
+      } else if (!filename.endsWith('.html') && !filename.endsWith('.htm')) {
+        filename += '.html';
+      }
 
-    function copyHex(color) {
-      navigator.clipboard.writeText(color);
-      toast.innerText = `تم النسخ: ${color}`;
-      toast.classList.add('show');
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 1500);
+      const blob = new Blob([code], { type: 'text/html;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(link.href);
     }
-
-    palettes.forEach(item => {
-      const card = document.createElement('div');
-      card.className = 'palette-card';
-
-      const colorsDiv = document.createElement('div');
-      colorsDiv.className = 'palette-colors';
-
-      item.colors.forEach(color => {
-        const swatch = document.createElement('div');
-        swatch.className = 'color-swatch';
-        swatch.style.backgroundColor = color;
-        swatch.onclick = () => copyHex(color);
-
-        const label = document.createElement('span');
-        label.className = 'color-code';
-        label.innerText = color;
-
-        swatch.appendChild(label);
-        colorsDiv.appendChild(swatch);
-      });
-
-      const infoDiv = document.createElement('div');
-      infoDiv.className = 'palette-info';
-      infoDiv.innerHTML = `
-        <span class="palette-title">${item.name}</span>
-        <span class="palette-category">${item.category}</span>
-      `;
-
-      card.appendChild(colorsDiv);
-      card.appendChild(infoDiv);
-      container.appendChild(card);
-    });
   </script>
 
 </body>
